@@ -1,5 +1,7 @@
 # Frontdesk
 
+[Open the hosted Frontdesk demo](https://frontdesk-mugi15.vercel.app/). For the agent workspace, choose **Meera Shah** and use the reviewer password shared with the submission.
+
 Frontdesk is a small support desk demo built with Node.js, PostgreSQL, and a dependency-light browser UI. It is designed to make the ticket rules visible: separate first-reply and resolution commitments, working-hours clocks, single-agent ownership, customer-only conversation views, and an append-only audit history.
 
 ## Run locally
