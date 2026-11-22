@@ -6,7 +6,7 @@
     "api/dispatch.mjs": { "includeFiles": "src/schema.sql" }
   },
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/dispatch?__frontdesk_path=:path*" }
+    { "source": "/api/:path(.*)", "destination": "/api/dispatch?__frontdesk_path=:path" }
   ],
   "crons": [
     { "path": "/api/cron/auto-close", "schedule": "0 14 * * *" }
