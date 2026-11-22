@@ -1,0 +1,6 @@
+.git
+.frontdesk-local
+.npm-cache
+.env*
+node_modules
+test

@@ -1,0 +1,23 @@
+{
+  "name": "frontdesk-support-desk",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A small support desk demo with working-hours SLAs and an auditable ticket lifecycle.",
+  "scripts": {
+    "start": "node --env-file=.env src/server.mjs",
+    "dev": "node --env-file=.env --watch src/server.mjs",
+    "test": "node --env-file=.env --test test/business-clock.test.mjs test/frontdesk.test.mjs",
+    "test:unit": "node --test test/business-clock.test.mjs",
+    "test:integration": "node --env-file=.env --test test/frontdesk.test.mjs"
+  },
+  "engines": {
+    "node": ">=20.6"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}

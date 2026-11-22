@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f5f1">
+    <title>Frontdesk — Support operations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail">
+        <div class="brand-mark" aria-label="Frontdesk">f<span>.</span></div>
+        <div class="rail-divider"></div>
+        <nav id="agent-nav" class="rail-nav" aria-label="Agent workspace">
+          <button type="button" class="rail-icon active" data-page="inbox" aria-controls="agent-view" aria-current="page" aria-label="Inbox" title="Inbox">▤</button>
+          <button type="button" class="rail-icon" data-page="customers" aria-controls="customers-view" aria-label="Customers" title="Customers">◉</button>
+          <button type="button" class="rail-icon" data-page="reports" aria-controls="reports-view" aria-label="Reports" title="Reports">▥</button>
+        </nav>
+        <div class="rail-spacer"></div>
+        <div class="rail-avatar">F</div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div class="topbar-heading">
+            <div class="eyebrow">ARVO · SUPPORT OPERATIONS</div>
+            <h1>Frontdesk <span class="title-slash">/</span> <span id="page-title">Inbox</span></h1>
+          </div>
+          <div class="topbar-controls">
+            <label class="mode-control" for="mode-select"><span class="mode-dot"></span><select id="mode-select" aria-label="Workspace mode"><option value="agent">Agent workspace</option><option value="customer">Customer portal preview</option></select><span class="chevron">⌄</span></label>
+            <label id="agent-control" class="agent-control" for="agent-select"><span class="avatar small">M</span><select id="agent-select" aria-label="Current agent"></select><span class="chevron">⌄</span></label>
+            <button id="agent-sign-out" class="button secondary hidden" type="button">Sign out</button>
+          </div>
+        </header>
+
+        <section id="sign-in-view" class="view hidden" aria-labelledby="sign-in-title">
+          <form id="agent-sign-in" class="panel new-request-form sign-in-form">
+            <h2 id="sign-in-title">Agent sign-in</h2>
+            <p>Choose an agent and enter the reviewer password supplied with the demo.</p>
+            <label>Agent<select id="sign-in-agent" required></select></label>
+            <label>Reviewer password<input id="agent-password" type="password" autocomplete="current-password" required></label>
+            <p id="sign-in-error" class="new-request-error" role="alert" hidden></p>
+            <div class="new-request-actions"><button class="button primary" type="submit">Sign in</button></div>
+          </form>
+        </section>
+
+        <section id="agent-view" class="view">
+          <div class="overview-row">
+            <div class="overview-copy"><div class="eyebrow">YOUR SUPPORT DESK</div><h2>Good work starts with a clear queue.</h2><p>Every deadline follows working hours in Asia/Kolkata.</p></div>
+            <div class="overview-stats" id="stats"></div>
+          </div>
+
+          <div class="inbox-layout">
+            <section class="queue-panel panel">
+              <div class="queue-header"><div><div class="eyebrow">TICKETS</div><h2>Inbox <span id="ticket-count" class="count-pill">0</span></h2></div><button class="icon-button" id="refresh-button" aria-label="Refresh tickets" title="Refresh">↻</button></div>
+              <div class="search-wrap"><span>⌕</span><input id="search-input" type="search" placeholder="Search tickets or customers" autocomplete="off"></div>
+              <div class="filter-row" id="filters" role="group" aria-label="Ticket filters">
+                <button data-filter="all" class="filter-chip active" aria-pressed="true">All <span id="all-count">0</span></button>
+                <button data-filter="unassigned" class="filter-chip" aria-pressed="false">Unassigned</button>
+                <button data-filter="mine" class="filter-chip" aria-pressed="false">Mine</button>
+                <button data-filter="waiting" class="filter-chip" aria-pressed="false">Waiting</button>
+                <button data-filter="overdue" class="filter-chip" aria-pressed="false">Overdue</button>
+              </div>
+              <div id="ticket-list" class="ticket-list"></div>
+              <div class="queue-foot"><span class="live-dot"></span> Queue updates when you refresh</div>
+            </section>
+
+            <section id="ticket-panel" class="ticket-panel panel empty-panel">
+              <div class="empty-state"><div class="empty-illustration">✳</div><h3>Select a ticket</h3><p>Choose a conversation from your inbox to see its history and SLA clocks.</p></div>
+            </section>
+
+            <aside id="insight-panel" class="insight-panel panel">
+              <div class="insight-empty"><div class="eyebrow">TICKET DETAILS</div><div class="detail-placeholder">Select a ticket to see its deadlines, ownership, and audit trail.</div></div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="customers-view" class="view hidden" aria-labelledby="customers-heading">
+          <div class="agent-page-heading">
+            <div><h2 id="customers-heading">Customer directory</h2><p>Find a customer and open any of their support tickets.</p></div>
+            <button type="button" class="button secondary" data-refresh-agent>Refresh</button>
+          </div>
+          <div class="directory-layout">
+            <section class="panel directory-panel" aria-labelledby="directory-heading">
+              <div class="aux-panel-heading"><h3 id="directory-heading">Customers</h3><span id="directory-count" class="count-pill"></span></div>
+              <div class="search-wrap directory-search"><span aria-hidden="true">⌕</span><input id="directory-search" type="search" aria-label="Find a customer by name or email" placeholder="Search by name or email" autocomplete="off"></div>
+              <div id="directory-list"></div>
+            </section>
+            <section id="directory-profile" class="panel directory-profile" aria-label="Customer ticket history"></section>
+          </div>
+        </section>
+
+        <section id="reports-view" class="view hidden" aria-labelledby="reports-heading">
+          <div class="agent-page-heading">
+            <div><h2 id="reports-heading">Queue and SLA report</h2><p>See where the queue needs attention and how each commitment is tracking.</p></div>
+            <button type="button" class="button secondary" data-refresh-agent>Refresh</button>
+          </div>
+          <div id="report-summary" class="report-summary"></div>
+          <div class="report-layout">
+            <section class="panel report-panel" aria-labelledby="commitments-heading">
+              <h3 id="commitments-heading">SLA status</h3>
+              <p>Each ticket contributes one first reply and one current resolution commitment.</p>
+              <div id="report-sla"></div>
+            </section>
+            <section class="panel report-panel" aria-labelledby="priority-heading">
+              <h3 id="priority-heading">Tickets by priority</h3>
+              <p>Counts include active, resolved, and automatically closed tickets.</p>
+              <div id="report-priority"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="customer-view" class="view customer-view hidden">
+          <div class="customer-intro"><div class="eyebrow">CUSTOMER PORTAL PREVIEW</div><h2>One clear place to get help.</h2><p>This demo portal shows only customer-visible replies. Internal notes and agent audit events stay private.</p></div>
+          <div class="customer-layout">
+            <section class="customer-tickets panel">
+              <div class="customer-tickets-header">
+                <h2>Support requests</h2>
+                <button id="new-request-button" class="button primary" type="button" aria-controls="new-request-panel" aria-expanded="false">New request</button>
+              </div>
+              <div id="customer-ticket-list" class="customer-ticket-list"></div>
+            </section>
+            <section id="customer-conversation" class="customer-conversation panel"><div class="empty-state"><div class="empty-illustration">✳</div><h3>Choose a request</h3><p>Select a support request to read the conversation or send a reply.</p></div></section>
+            <section id="new-request-panel" class="customer-conversation panel hidden" aria-labelledby="new-request-title">
+              <div class="customer-conversation-header"><h2 id="new-request-title">New support request</h2></div>
+              <form id="new-request-form" class="new-request-form">
+                <div class="new-request-contact">
+                  <label>Name<input name="customerName" autocomplete="name" maxlength="100" required></label>
+                  <label>Email<input name="customerEmail" type="email" autocomplete="email" maxlength="254" required></label>
+                </div>
+                <label>Subject<input name="subject" maxlength="160" required></label>
+                <label>Describe the issue<textarea name="body" rows="6" maxlength="4000" required></textarea></label>
+                <p id="new-request-error" class="new-request-error" role="alert" hidden></p>
+                <div class="new-request-actions">
+                  <button id="cancel-new-request" class="button secondary" type="button">Cancel</button>
+                  <button id="submit-new-request" class="button primary" type="submit">Submit request</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <footer class="app-footer"><span>FRONTDESK <span class="footer-sep">·</span> DEMO ENVIRONMENT</span><span>Service hours <strong>09:30–18:30</strong> · Mon–Fri · IST</span></footer>
+      </main>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
